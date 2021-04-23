@@ -56,3 +56,14 @@ Check: <https://documenter.getpostman.com/view/9956214/T1LMiT5U#450c778f-e50d-40
 
 Click "Run in Postman" and create an account to try out writing requests.
 
+# Other resources:
+
+https://www.tidyverse.org/
+https://purrr.tidyverse.org/reference/index.html
+https://purrr.tidyverse.org/reference/map.html
+
+The Twitter Dev materials mention the word "payload". See: https://en.wikipedia.org/wiki/Payload_(computing)
+
+
+
+
