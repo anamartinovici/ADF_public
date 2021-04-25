@@ -196,12 +196,16 @@ obj[["data"]][[1]][["conversation_id"]]
 
 # rearrange the data
 df_data <- obj[["data"]] %>% 
-	tibble(created_at      = map_chr(., "created_at"),
-		   text            = map_chr(., "text"),
-		   tweet_id        = map_chr(., "id"),
-		   author_id       = map_chr(., "author_id"),
-		   conversation_id = map_chr(., "conversation_id"),
-		   ref_tweet       = map(., "referenced_tweets"))
+	{tibble(created_at      = map_chr(., "created_at"),
+			text            = map_chr(., "text"),
+			tweet_id        = map_chr(., "id"),
+			author_id       = map_chr(., "author_id"),
+			conversation_id = map_chr(., "conversation_id"),
+			ref_tweet       = map(., "referenced_tweets"))}
+# check: https://jennybc.github.io/purrr-tutorial/ls01_map-name-position-shortcuts.html#data_frame_output
+# for info about what the {} around tibble do
+# you can also try it out without {} and see how df_data differs
+	
 		
 # some tweets are retweets or quoted, others are neither (ref_tweet is null)
 f_get_tweet_type <- function(input_list) {
