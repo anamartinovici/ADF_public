@@ -8,6 +8,10 @@
 #
 # This file also shows how you can process data returned by the API
 
+# adding rm at the start of the file to remove all objects from the workspace
+#		if I want to execute all code and test it out
+rm(list = ls())
+
 library("httr")
 library("jsonlite")
 library("tidyverse")
@@ -125,3 +129,92 @@ sapply(obj_V3[["data"]], names)
 sapply(obj_V3[["includes"]][["users"]], names)
 
 
+################################################
+# Step 4: collect recent tweets that contain a hashtag
+#		search over more than just one hashtag
+################################################
+
+# you can use logical operators to add more hashtags
+hashtag_1 <- "#CatsOfTwitter"
+hashtag_2 <- "#Covid"	
+target_hashtag <- paste0(hashtag_1, " OR ", hashtag_2)
+target_hashtag
+
+# this is the endpoint you need to connect to
+API_endpoint_recentsearch <- 'https://api.twitter.com/2/tweets/search/recent?query='
+
+# the url_handle is:
+# check https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/URLencode
+#		to understand why you need to use URLencode if the target_hashtag contains 
+#		characters other than English alphanumeric characters
+url_handle <- paste0(API_endpoint_recentsearch, URLencode(target_hashtag, reserved = TRUE))
+url_handle
+# add expansions to make sure you get the full text also for retweets
+params <- list(tweet.fields = 'referenced_tweets',
+			   expansions = 'referenced_tweets.id.author_id',
+			   max_results = '50')
+# get recent tweets that match the criteria
+response_V4 <- httr::GET(url = url_handle,
+						 config = httr::add_headers(.headers = my_header[["headers"]]),
+						 query = params)
+# always check the HTTP response before doing anything else
+httr::status_code(response_V4)
+obj_V4 <- httr::content(response_V4)
+names(obj_V4)
+names(obj_V4[["data"]][[1]])
+names(obj_V4[["includes"]][["tweets"]][[1]])
+obj_V4[["data"]][[1]]
+obj_V4[["data"]][[2]]
+
+# some tweets are retweets or quoted, others are neither (ref_tweet is null)
+f_get_tweet_type <- function(input_list) {
+	if(is.null(input_list[["referenced_tweets"]])) {
+		# you can change the label to use for a tweet that is neither a quote or a retweet
+		return("original_tweet")
+	} else {
+		return(input_list[["referenced_tweets"]][[1]][["type"]])	
+	}
+}
+
+f_get_ref_tweet_id <- function(input_list) {
+	if(is.null(input_list[["referenced_tweets"]])) {
+		# you can change the label to use for a tweet that is neither a quote or a retweet
+		return("original_tweet")
+	} else {
+		return(input_list[["referenced_tweets"]][[1]][["id"]])	
+	}
+}
+
+# compare the text you get from "data" with the one you get from "includes"
+text_tweets_V4_data <- obj_V4[["data"]] %>% {
+	tibble(id = map_chr(., "id"),
+		   text_of_tweet = map_chr(., "text"),
+		   author_id = map_chr(., "author_id"),
+		   tweet_type = map_chr(., f_get_tweet_type),
+		   ref_tweet_id = map_chr(., f_get_ref_tweet_id))
+}
+
+text_tweets_V4_data <- text_tweets_V4_data %>% 
+	mutate(text_length = str_length(text_of_tweet),
+		   includes_hashtag_1 = str_detect(text_of_tweet, regex(hashtag_1, ignore_case = TRUE)),
+		   includes_hashtag_2 = str_detect(text_of_tweet, regex(hashtag_2, ignore_case = TRUE)))
+text_tweets_V4_data %>% filter(includes_hashtag_1 == FALSE, includes_hashtag_2 == FALSE)
+# the text of retweets is truncated so it might appear as if the hashtag is not included
+# if you need the full text of the tweet that was retweeted, you can get it
+#		from obj[["includes"]] -> see example_check_tweet_text_length.R
+
+text_tweets_V4_data %>% filter(tweet_type != "retweeted",
+							   includes_hashtag_1 == FALSE, 
+							   includes_hashtag_2 == FALSE)
+text_tweets_V4_data %>% filter(tweet_type == "retweeted",
+							   includes_hashtag_1 == FALSE, 
+							   includes_hashtag_2 == FALSE)
+# all the tweets that appear to not contain any of the target hashtags are retweets
+# also, all of them have a text length of 140 or very close to 140
+text_tweets_V4_data %>% 
+	filter(tweet_type == "retweeted",
+		   includes_hashtag_1 == FALSE, 
+		   includes_hashtag_2 == FALSE) %>% 
+	summarise(min_text_length = min(text_length),
+			  mean_text_length = mean(text_length),
+			  max_text_length = max(text_length))
