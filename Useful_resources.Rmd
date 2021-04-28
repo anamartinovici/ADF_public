@@ -1,5 +1,5 @@
 ---
-title: "Materials for the April 22 workshop"
+title: "Useful resources - Twitter API"
 author: "Ana Martinovici"
 date: "Last compiled on `r Sys.Date()`"
 output: 
@@ -56,14 +56,36 @@ Check: <https://documenter.getpostman.com/view/9956214/T1LMiT5U#450c778f-e50d-40
 
 Click "Run in Postman" and create an account to try out writing requests.
 
-# Other resources:
+# How to build your queries
 
-https://www.tidyverse.org/
-https://purrr.tidyverse.org/reference/index.html
-https://purrr.tidyverse.org/reference/map.html
+Check: <https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query>
 
-The Twitter Dev materials mention the word "payload". See: https://en.wikipedia.org/wiki/Payload_(computing)
+# Location info
 
+Check: <https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/place>
 
+**Important:** Not all tweets have location info. If you have access to the academic track, then you should be able to build queries that filter on location info. For more details, check: <https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query>
 
+# R-resources
 
+You might need to refresh your tidyverse skills. So it's useful to check:
+
+* <https://www.tidyverse.org/>
+* <https://purrr.tidyverse.org/reference/index.html>
+* <https://purrr.tidyverse.org/reference/map.html>
+* <https://jennybc.github.io/purrr-tutorial/index.html>
+
+The Twitter Dev materials mention the word "payload". Check: <https://en.wikipedia.org/wiki/Payload_(computing)> 
+
+# Example reprex
+
+reprex = minimal reproducible example
+
+After reading <https://dev.to/twitterdev/understanding-the-new-tweet-payload-in-the-twitter-api-v2-1fg5> I was expecting that "text" will include the full text of all tweets returned by the API. However, I've noticed that's not the case for retweets. I then took these steps before posting the question on the Twitter developers forum:
+
+1. create "test tweets" 
+2. retrieve the "test tweets"
+3. check if the retweets are truncated
+4. wait 24 hours, check again the code and the results
+5. post the code that reproduces the text truncation on GitHub
+6. post the question on the developers forum
