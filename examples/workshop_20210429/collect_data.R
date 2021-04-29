@@ -152,6 +152,6 @@ toc()
 #		and no longer have to ask data from the API
 # this means you can process and analyze data even if your internet stops working
 # (you'll need to have internet again to be able to commit and push to GitHub)
-save(raw_dataset, file = "raw_dataset.RData")
+save(raw_dataset, file = "examples/workshop_20210429/raw_dataset.RData")
 # to check if your code works without any errors, select all (on Windows: CTRL + A)
 #		and then run all (on Windows: CTRL + Enter)
