@@ -1,4 +1,7 @@
-# The file checks if tweet text is truncated for quoted retweets
+# IMPORTANT if you plan to use the text of retweets (and not only replies, 
+#		quote tweets, or original tweets)
+
+# The file checks if tweet text is truncated for retweets
 # I have a separate account (BayesCalling) that I have used to tweet just now
 # I've tweeted using a hashtag I will search for and 
 #		I have tweets that are exactly 280 characters long

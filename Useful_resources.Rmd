@@ -89,3 +89,7 @@ After reading <https://dev.to/twitterdev/understanding-the-new-tweet-payload-in-
 4. wait 24 hours, check again the code and the results
 5. post the code that reproduces the text truncation on GitHub
 6. post the question on the developers forum
+
+Link to the public repo where I've posted the minimal reproducible example: <https://github.com/anamartinovici/twitter_api_community>
+
+Link to the post I've posted on the forum: <https://twittercommunity.com/t/tweet-text-truncated-to-140-characters/153383>
