@@ -33,7 +33,8 @@ curl -X GET 'https://api.twitter.com/2/tweets/search/stream/rules' \
 -H "Authorization: Bearer ${BEARER_TOKEN}" 
 
 # connect to the stream API to get data that matches the rule you've just set
-curl -X GET -H "Authorization: Bearer ${BEARER_TOKEN}" "https://api.twitter.com/2/tweets/search/stream?tweet.fields=in_reply_to_user_id,author_id,created_at,conversation_id&expansions=author_id"
+curl -X GET -H "Authorization: Bearer ${BEARER_TOKEN}" \
+"https://api.twitter.com/2/tweets/search/stream?tweet.fields=in_reply_to_user_id,author_id,created_at,conversation_id&expansions=author_id"
 # use CTRL+C to stop the stream
 
 # delete the rule - you need to use the correct id associated with the rules you have
