@@ -93,3 +93,7 @@ After reading <https://dev.to/twitterdev/understanding-the-new-tweet-payload-in-
 Link to the public repo where I've posted the minimal reproducible example: <https://github.com/anamartinovici/twitter_api_community>
 
 Link to the post I've posted on the forum: <https://twittercommunity.com/t/tweet-text-truncated-to-140-characters/153383>
+
+# References
+
+Author name 1, Author name 2, (year), "Name of resource", journal/where it was published
