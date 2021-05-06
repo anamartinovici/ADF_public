@@ -23,7 +23,7 @@ params <- list(query = "#CatsOfTwitter",
 			   tweet.fields = "created_at,author_id",
 			   max_results = "20")
 
-# request data from the API 10 times
+# request data from the API N_request times
 N_requests <- 5
 
 # this creates the list where I store all the response objects
