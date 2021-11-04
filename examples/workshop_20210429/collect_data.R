@@ -1,5 +1,5 @@
-# remove all objects from the workspace before running the lines of code below
-rm(list=ls())
+# there's no need for rm(list=ls()) at the start of the file
+# to restart the R Session on Windows, use CTRL + SHIFT + F10
 
 # you need httr to GET data from the API
 # note that httr can be used also with other APIs, 

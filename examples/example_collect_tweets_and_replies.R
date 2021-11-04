@@ -8,9 +8,8 @@
 #
 # This file also shows how you can process data returned by the API
 
-# adding rm at the start of the file to remove all objects from the workspace
-#		if I want to execute all code and test it out
-rm(list = ls())
+# there's no need for rm(list=ls()) at the start of the file
+# to restart the R Session on Windows, use CTRL + SHIFT + F10
 
 library("httr")
 library("jsonlite")

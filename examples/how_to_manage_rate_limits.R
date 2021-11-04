@@ -2,7 +2,8 @@
 # for other endpoints, you need to check the rate limits and then adjust 
 #		Sys.sleep accordingly
 
-rm(list = ls())
+# there's no need for rm(list=ls()) at the start of the file
+# to restart the R Session on Windows, use CTRL + SHIFT + F10
 
 library("httr")
 library("tidyverse")
