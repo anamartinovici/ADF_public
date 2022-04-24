@@ -40,3 +40,115 @@ f_test_API <- function(token_type) {
 		return(my_header)
 	}	
 }
+
+# the functions below show examples for how to extract information from nested lists
+# these account for not all tweets having the same fields
+f_get_geo_placeid <- function(input_list) {
+	if(is.null(input_list[["geo"]])) {
+		# you can change the label
+		return("no_geo_info")
+	} else {
+		return(input_list[["geo"]][["place_id"]])	
+	}
+}
+
+f_get_retweet_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["retweet_count"]])	
+	}
+}
+
+f_get_reply_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["reply_count"]])	
+	}
+}
+
+f_get_like_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["like_count"]])	
+	}
+}
+
+f_get_quote_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["quote_count"]])	
+	}
+}
+
+f_get_tweet_type <- function(input_list) {
+	if(is.null(input_list[["referenced_tweets"]])) {
+		# you can change the label for a tweet that is neither a quote nor a retweet
+		return("original_tweet")
+	} else {
+		return(input_list[["referenced_tweets"]][[1]][["type"]])	
+	}
+}
+
+f_get_ref_tweet_id <- function(input_list) {
+	if(is.null(input_list[["referenced_tweets"]])) {
+		# you can change the label for a tweet that is neither a quote nor a retweet
+		return("original_tweet")
+	} else {
+		return(input_list[["referenced_tweets"]][[1]][["id"]])	
+	}
+}
+
+f_get_u_location <- function(input_list) {
+	if(is.null(input_list[["location"]])) {
+		# you can change the label 
+		return("no_u_location")
+	} else {
+		return(input_list[["location"]])	
+	}
+}
+
+f_get_followers_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["followers_count"]])	
+	}
+}
+
+f_get_following_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["following_count"]])	
+	}
+}
+
+f_get_tweet_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["tweet_count"]])	
+	}
+}
+
+f_get_listed_count <- function(input_list) {
+	if(is.null(input_list[["public_metrics"]])) {
+		# you can change the label 
+		return("no_public_metrics")
+	} else {
+		return(input_list[["public_metrics"]][["listed_count"]])	
+	}
+}
+
+
