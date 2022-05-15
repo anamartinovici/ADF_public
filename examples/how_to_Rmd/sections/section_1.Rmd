@@ -1,0 +1,43 @@
+---
+title: "Section 1"
+author: "Ana Martinovici"
+date: "Last compiled on `r Sys.time()`"
+output: 
+    bookdown::html_document2:
+        css: '..\style.css'
+        toc: true
+        toc_float: 
+            collapsed: false
+        number_sections: true
+        code_folding: hide
+        theme: cerulean
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup-section1, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Tips and tricks
+
+1. Knit directory
+
+Check `Tools` -> `Global Options` -> `R Markdown` -> evaluate code chunks in directory. Do the same for `Tools` -> `Project Options`.
+
+**Recommendation**: use `Document`!
+
+2. `css` style
+
+Sometimes you might want to personalize the style you're using in the output document. Then, you can use a `.css` file where you store information about these styles. Check `.\examples\how_to_Rmd\sections\style.css`, which is the file I'm using to create the info box below. Notice how this allows me to make the recommendation even more visually salient than text formatting alone.
+
+::: {.infobox}
+**Recommendation**: use `Document`!
+:::
+
+
+3. `YAML`
+
+Check the `YAML` section in this file. You'll notice that I'm using `bookdown`. For more details: https://bookdown.org/yihui/bookdown/
+
+Try to see what happens if you switch between `true` and `false` some of the output specifications. For example, try it out with `number_sections`. Then, see what happens when the child document has a different value for `number_section` compared to the main report.

@@ -1,0 +1,49 @@
+---
+title: "Main report"
+author: "Ana Martinovici"
+date: "Last compiled on `r Sys.time()`"
+output: 
+    bookdown::html_document2:
+        toc: true
+        css: style.css
+        toc_float: 
+            collapsed: false
+        number_sections: true
+        code_folding: show
+        theme: cerulean
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup-main, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+# Introduction
+
+You have been using R Markdown in previous courses, so I am assuming you know the basic idea behind it. For a refresher, check: https://bookdown.org/yihui/rmarkdown-cookbook/rmarkdown-process.html
+
+# Motivation for using child documents
+
+When working with R Markdown documents, it can become difficult to manage code & text as these become more complex (and long) over time. If you are working with colleagues on a project, having everyone edit the same file can also lead to merge conflicts. These conflicts can be solved, but very often it's best if you avoid them altogether. One way of making your work easier in these situations is to use child documents. This example shows you how to do it.
+
+For more information about child documents, see: https://bookdown.org/yihui/rmarkdown-cookbook/child-document.html
+
+# Section 1
+
+Let this Section we included from a separate `.Rmd` file called `section_1.Rmd`. In this repository (`ADF_public`), the file is available in `.\examples\how_to_Rmd\sections`.
+
+The content of this file is:
+
+```{r, child=here::here("examples", "how_to_Rmd", "sections", "section_1.Rmd")}
+```
+
+# Section 2
+
+```{r, child="sections/section_2.Rmd"}
+```
+
+
+
+
