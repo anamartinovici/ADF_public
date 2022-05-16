@@ -4,7 +4,7 @@ author: "Ana Martinovici"
 date: "Last compiled on `r Sys.time()`"
 output: 
     bookdown::html_document2:
-        css: '..\style.css'
+        css: !expr here::here("examples", "how_to_Rmd", "style.css")
         toc: true
         toc_float: 
             collapsed: false

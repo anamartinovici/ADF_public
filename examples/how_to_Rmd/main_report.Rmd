@@ -41,7 +41,7 @@ The content of this file is:
 
 # Section 2
 
-```{r, child="sections/section_2.Rmd"}
+```{r, child=here::here("examples", "how_to_Rmd", "sections", "section_2.Rmd")}
 ```
 
 

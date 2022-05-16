@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This example shows how to print specific lines from an external script. You can use this to show, in your final report, what specific queries you've used, how you requested data from the API, and other relevant steps in your project.
   
-```{r} 
+```{r, inc-query} 
 file_name <- here::here("examples", "recent_search", "collect_data.R") 
 start_line <- 92
 end_line <- 99 
@@ -37,3 +37,5 @@ file_in_repo <- stringr::str_sub(file_name, start = stringr::str_locate(file_nam
 
 ```{r, my-query-params, eval = FALSE, echo = TRUE} 
 ``` 
+
+
