@@ -5,26 +5,14 @@
 # add packages you need to use
 # do NOT add any packages that are not needed
 
-################################################
-################################################
-#
+# step 1 ----
 # test if you can connect to the API
-#
-################################################
-################################################
-
 # Does the bearer token allow you to collect data?
 # if "Yes" -> you can collect data
 # else -> fix the error(s)
 
-################################################
-################################################
-#
+# step 2 ----
 # Collect the data you need for your project
-#
-################################################
-################################################
-
 # here you add all the code you use to collect data
 #		and nothing but the code you use to collect data
 # first, collect only small number of observations (max 100)
@@ -33,14 +21,9 @@
 # after you are sure you get all the types of data you need, and you know how 
 # to process the results from the API, you can collect more observations
 
-################################################
-################################################
-#
+# step 3 ----
 # Save the data in the assignment repository
 #
-################################################
-################################################
-
 # save the "raw" dataset -> commit -> push to your assignment repository 
 # if the dataset is too large to be pushed to GitHub:
 #			1. split it in smaller files that you commit -> push to GitHub OR
