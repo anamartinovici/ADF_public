@@ -150,5 +150,3 @@ f_get_listed_count <- function(input_list) {
 		return(input_list[["public_metrics"]][["listed_count"]])	
 	}
 }
-
-
