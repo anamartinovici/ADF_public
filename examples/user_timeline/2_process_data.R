@@ -10,10 +10,12 @@ library("tidyverse")
 # add more packages ONLY if you need to use them
 
 # f_aux_functions.R contains functions for data processing
-source("f_aux_functions.R")
+source(here::here("aux_functions.R"))
 
 # load the dataset you've just collected
-load("examples/user_timeline/raw_dataset.RData")
+load(here::here("examples", 
+				"user_timeline", 
+				"raw_dataset.RData"))
 
 raw_content <- purrr::map(all_response_objects, httr::content)
 # the line above is equivalent to a for loop 
@@ -56,11 +58,13 @@ df_tweets <- raw_tweets %>%
 			lang               = map_chr(., "lang"),
 			created_at         = map_chr(., "created_at"),
 			author_id          = map_chr(., "author_id"),
-			source             = map_chr(., "source"),
 			retweet_count      = map_int(., f_get_retweet_count),
 			reply_count        = map_int(., f_get_reply_count),
 			like_count         = map_int(., f_get_like_count),
 			quote_count        = map_int(., f_get_quote_count))}
 
-save(df_tweets, df_users, df_ref_tweets, df_places, file = "examples/recent_search/processed_data.RData")
+save(df_tweets, df_users, df_ref_tweets, df_places, 
+	 file = here::here("examples", 
+	 				  "recent_search", 
+	 				  "processed_data.RData"))
 

@@ -1,14 +1,6 @@
 # there's no need for rm(list=ls()) at the start of the file
 # to restart the R Session on Windows, use CTRL + SHIFT + F10
 
-################################################
-################################################
-#
-# test if you can connect to the API
-#
-################################################
-################################################
-
 # you need httr to GET data from the API
 # note that httr can be used also with other APIs, 
 #		it this is not specific to the Twitter API
@@ -19,8 +11,8 @@ library("tidyverse")
 # add more packages ONLY if you need to use them
 
 # f_aux_functions.R contains a function that you can use to test the token
-source("f_aux_functions.R")
-my_header <- f_test_API(token_type = "elevated")
+source(here::here("aux_functions.R"))
+my_header <- f_test_API(token_type = "academic")
 
 ################################################
 # Step 1: collect the user_id for this handle
@@ -45,7 +37,7 @@ user_id <- obj[["data"]][[1]][["id"]]
 
 # get the first batch
 url_handle <- paste0('https://api.twitter.com/2/users/', user_id, "/tweets")
-n_tweets_per_request <- '100'
+n_tweets_per_request <- '10'
 req_tweet_fields <- c("author_id",
 					  "created_at",
 					  "id",
@@ -117,4 +109,7 @@ while(!is.null(obj[["meta"]][["next_token"]])) {
 	toc()
 }
 
-save(all_response_objects, file = "examples/user_timeline/raw_dataset.RData")
+save(all_response_objects, 
+	 file = here::here("examples", 
+	 				  "user_timeline", 
+	 				  "raw_dataset.RData"))
