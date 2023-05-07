@@ -25,8 +25,8 @@ This example shows how to print specific lines from an external script. You can 
   
 ```{r, inc-query} 
 file_name <- here::here("examples", "recent_search", "collect_data.R") 
-start_line <- 92
-end_line <- 99 
+start_line <- 27
+end_line <- 34 
 knitr::read_chunk(path = file_name, labels = "my-query-params", from = start_line, to = end_line) 
  
 file_in_repo <- stringr::str_sub(file_name, start = stringr::str_locate(file_name, "/ADF_public")[1, "start"]) 

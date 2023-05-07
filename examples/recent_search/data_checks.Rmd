@@ -17,7 +17,9 @@ editor_options:
 
 ```{r load-data}
 library("tidyverse")
-load("examples/recent_search/processed_data.RData")
+load(here::here("examples", 
+				"recent_search", 
+				"processed_data.RData"))
 ```
 
 # Data descriptives

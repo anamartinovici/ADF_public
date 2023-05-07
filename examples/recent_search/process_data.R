@@ -10,10 +10,12 @@ library("tidyverse")
 # add more packages ONLY if you need to use them
 
 # f_aux_functions.R contains functions for data processing
-source("f_aux_functions.R")
+source(here::here("aux_functions.R"))
 
 # load the dataset you've just collected
-load("examples/recent_search/raw_dataset.RData")
+load(here::here("examples",
+				"recent_search", 
+				"raw_dataset.RData"))
 
 raw_content <- purrr::map(all_response_objects, httr::content)
 # the line above is equivalent to a for loop 
@@ -83,9 +85,7 @@ df_tweets <- raw_tweets %>%
 			lang               = map_chr(., "lang"),
 			created_at         = map_chr(., "created_at"),
 			author_id          = map_chr(., "author_id"),
-			source             = map_chr(., "source"),
 			conversation_id    = map_chr(., "conversation_id"),
-			possibly_sensitive = map_chr(., "possibly_sensitive"),
 			reply_settings     = map_chr(., "reply_settings"),
 			geo_place_id       = map_chr(., f_get_geo_placeid),
 			retweet_count      = map_int(., f_get_retweet_count),
@@ -100,9 +100,7 @@ df_users <- raw_users %>%
 	{tibble(u_id                = map_chr(., "id"),
 			u_name              = map_chr(., "name"),
 			u_username          = map_chr(., "username"),
-			u_protected         = map_chr(., "protected"),
 			u_description       = map_chr(., "description"),
-			u_verified          = map_chr(., "verified"),
 			u_created_at        = map_chr(., "created_at"),
 			u_profile_image_url = map_chr(., "profile_image_url"),
 			u_location          = map_chr(., f_get_u_location),
@@ -120,9 +118,7 @@ df_ref_tweets <- raw_ref_tweets %>%
 			ref_lang               = map_chr(., "lang"),
 			ref_created_at         = map_chr(., "created_at"),
 			ref_author_id          = map_chr(., "author_id"),
-			ref_source             = map_chr(., "source"),
 			ref_conversation_id    = map_chr(., "conversation_id"),
-			ref_possibly_sensitive = map_chr(., "possibly_sensitive"),
 			ref_reply_settings     = map_chr(., "reply_settings"),
 			ref_geo_place_id       = map_chr(., f_get_geo_placeid),
 			ref_retweet_count      = map_int(., f_get_retweet_count),
@@ -146,5 +142,8 @@ nrow(df_places)
 df_places <- distinct(df_places)
 nrow(df_places)
 
-save(df_tweets, df_users, df_ref_tweets, df_places, file = "examples/recent_search/processed_data.RData")
+save(df_tweets, df_users, df_ref_tweets, df_places, 
+	 file = here::here("examples", 
+	 				  "recent_search", 
+	 				  "processed_data.RData"))
 
