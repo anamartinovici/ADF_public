@@ -1,14 +1,6 @@
 # there's no need for rm(list=ls()) at the start of the file
 # to restart the R Session on Windows, use CTRL + SHIFT + F10
 
-################################################
-################################################
-#
-# test if you can connect to the API
-#
-################################################
-################################################
-
 # you need httr to GET data from the API
 # note that httr can be used also with other APIs, 
 #		it this is not specific to the Twitter API
@@ -17,88 +9,30 @@ library("httr")
 library("tictoc")
 # add more packages ONLY if you need to use them
 
-# f_aux_functions.R contains a function that you can use to test the token
-source("f_aux_functions.R")
-my_header <- f_test_API(token_type = "elevated")
+# aux_functions.R contains a function that you can use to test the token
+source(here::here("aux_functions.R"))
+my_header <- f_test_API(token_type = "academic")
 
-################################################
-################################################
-#
-# Does the bearer token allow you to collect data?
-# if "Yes" -> continue
-# else -> fix the error(s)
-#
-################################################
-################################################
+# aux_objects.R contains info about fields and expansions you can request
+source(here::here("aux_objects.R"))
 
-################################################
-################################################
-#
 # collect tweets that contain a target keyword
-#
-################################################
-################################################
-
 # you should only collect the data you need
 # you can first check what tweet fields you can add
-req_tweet_fields <- c("author_id",
-					  "conversation_id",
-					  "created_at",
-					  "geo",
-					  "id",
-					  "in_reply_to_user_id",
-					  "lang",
-					  "possibly_sensitive",
-					  "public_metrics",
-					  "referenced_tweets",
-					  "reply_settings",
-					  "source",
-					  "text",
-					  "withheld")
-req_tweet_fields <- stringr::str_c(req_tweet_fields, collapse = ",")
-
-req_place_fields <- c("contained_within",
-					  "country",
-					  "country_code",
-					  "full_name",
-					  "geo",
-					  "id",
-					  "name",
-					  "place_type")
-req_place_fields <- stringr::str_c(req_place_fields, collapse = ",")
-
-req_user_fields <- c("created_at",
-					 "description",
-					 "id",
-					 "location",
-					 "name",
-					 "pinned_tweet_id",
-					 "profile_image_url",
-					 "protected",
-					 "public_metrics",
-					 "url",
-					 "username",
-					 "verified",
-					 "withheld")
-req_user_fields <- stringr::str_c(req_user_fields, collapse = ",")
-
-req_expansions <- c("author_id",
-					"geo.place_id",
-					"in_reply_to_user_id",
-					"referenced_tweets.id",
-					"referenced_tweets.id.author_id")
-req_expansions <- stringr::str_c(req_expansions, collapse = ",")
+ALL_tweet_fields <- stringr::str_c(ALL_tweet_fields, collapse = ",")
+ALL_place_fields <- stringr::str_c(ALL_place_fields, collapse = ",")
+ALL_user_fields  <- stringr::str_c(ALL_user_fields, collapse = ",")
+ALL_expansions   <- stringr::str_c(ALL_expansions, collapse = ",")
 
 params <- list(query = "#CatsofTwitter OR #Caturday from:Number10cat",
-			   #start_time = "2021-06-05T05:00:00Z",
-			   #end_time = "2021-06-06T05:00:00Z",
-			   max_results = 100,
-			   tweet.fields = req_tweet_fields,
-			   expansions = req_expansions,
-			   place.fields = req_place_fields,
-			   user.fields = req_user_fields)
+			   #start_time = "2023-05-05T05:00:00Z",
+			   #end_time = "2023-05-06T05:00:00Z",
+			   max_results = 10,
+			   tweet.fields = ALL_tweet_fields,
+			   expansions = ALL_expansions,
+			   place.fields = ALL_place_fields,
+			   user.fields = ALL_user_fields)
 
-EP_recent_search   <- "https://api.twitter.com/2/tweets/search/recent?query="
 response <- httr::GET(url = EP_recent_search,
 					  config = httr::add_headers(.headers = my_header[["headers"]]),
 					  query = params)
@@ -122,7 +56,7 @@ obj[["meta"]][["next_token"]]
 
 # decide what's your stopping rule and implement it using "while" or "for"
 # request data from the API N_request times
-N_requests <- 50
+N_requests <- 2
 Sys.sleep("2")
 # now, use a loop to get the remaining number of requests
 # as long as there are more tweets to collect, meta.next_token has a value
@@ -165,4 +99,8 @@ while(request_number < N_requests && !is.null(obj[["meta"]][["next_token"]])) {
 	toc()
 }
 
-save(all_response_objects, file = "examples/recent_search/raw_dataset.RData")
+save(all_response_objects, 
+	 file = here::here("examples",
+	 				  "recent_search", 
+	 				  "raw_dataset.RData"))
+
