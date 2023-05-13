@@ -29,7 +29,7 @@ Check `Tools` -> `Global Options` -> `R Markdown` -> evaluate code chunks in dir
 
 2. `css` style
 
-Sometimes you might want to personalize the style you're using in the output document. Then, you can use a `.css` file where you store information about these styles. Check `.\examples\how_to_Rmd\sections\style.css`, which is the file I'm using to create the info box below. Notice how this allows me to make the recommendation even more visually salient than text formatting alone.
+Sometimes you might want to personalize the style you're using in the output document. Then, you can use a `.css` file where you store information about these styles. Check `.\examples\how_to_Rmd\style.css`, which is the file I'm using to create the info box below. Notice how this allows me to make the recommendation even more visually salient than text formatting alone.
 
 ::: {.infobox}
 **Recommendation**: use `Document`!
