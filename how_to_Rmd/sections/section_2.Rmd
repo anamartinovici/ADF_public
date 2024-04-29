@@ -24,9 +24,9 @@ knitr::opts_chunk$set(echo = TRUE)
 This example shows how to print specific lines from an external script. You can use this to show, in your final report, what specific queries you've used, how you requested data from the API, and other relevant steps in your project.
   
 ```{r, inc-query} 
-file_name <- here::here("examples", "recent_search", "collect_data.R") 
-start_line <- 27
-end_line <- 34 
+file_name <- here::here("API_Kiva", "loans_filter", "collect_data.R") 
+start_line <- 75
+end_line <- 106
 knitr::read_chunk(path = file_name, labels = "my-query-params", from = start_line, to = end_line) 
  
 file_in_repo <- stringr::str_sub(file_name, start = stringr::str_locate(file_name, "/ADF_public")[1, "start"]) 

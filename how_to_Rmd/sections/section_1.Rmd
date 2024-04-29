@@ -4,7 +4,7 @@ author: "Ana Martinovici"
 date: "Last compiled on `r Sys.time()`"
 output: 
     bookdown::html_document2:
-        css: !expr here::here("examples", "how_to_Rmd", "style.css")
+        css: !expr here::here("how_to_Rmd", "style.css")
         toc: true
         toc_float: 
             collapsed: false
@@ -29,7 +29,7 @@ Check `Tools` -> `Global Options` -> `R Markdown` -> evaluate code chunks in dir
 
 2. `css` style
 
-Sometimes you might want to personalize the style you're using in the output document. Then, you can use a `.css` file where you store information about these styles. Check `.\examples\how_to_Rmd\style.css`, which is the file I'm using to create the info box below. Notice how this allows me to make the recommendation even more visually salient than text formatting alone.
+Sometimes you might want to personalize the style you're using in the output document. Then, you can use a `.css` file where you store information about these styles. Check `.\how_to_Rmd\style.css`, which is the file I'm using to create the info box below. Notice how this allows me to make the recommendation even more visually salient than text formatting alone.
 
 ::: {.infobox}
 **Recommendation**: use `Document`!
