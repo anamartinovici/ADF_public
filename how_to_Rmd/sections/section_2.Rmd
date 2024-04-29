@@ -33,9 +33,29 @@ file_in_repo <- stringr::str_sub(file_name, start = stringr::str_locate(file_nam
   
 ``` 
   
- Specifically, we are including lines `r start_line`:`r end_line` from `r file_in_repo`: 
+Specifically, we are including lines `r start_line`:`r end_line` from `r file_in_repo`: 
 
 ```{r, my-query-params, eval = FALSE, echo = TRUE} 
 ``` 
+
+```{r}
+load(here::here("API_Kiva", "loans_filter", "process_data.RData") )
+```
+
+These lines indicate the query and fields that I've been using to collect `r nrow(df_loans)` loans with the following distribution for the loan amount:
+
+```{r}
+library("tidyverse")
+
+df_loans %>%
+	ggplot(aes(x = loanAmount)) +
+	geom_histogram(binwidth = 500) +
+	theme_bw() +
+	labs(x = "Loan Amount",
+		 y = "Number of loans",
+		 title = "Distribution of Loan Amount")
+
+```
+
 
 

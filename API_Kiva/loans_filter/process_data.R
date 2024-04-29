@@ -65,6 +65,9 @@ df_loans <- all_data %>%
             status             = map_chr(., "status"),
             fundedAmount       = map_chr(., f_get_fundedAmount))}
 # check ?map for more info
+# make other necessary changes (e.g., data transformations)
+df_loans <- df_loans %>%
+	mutate(loanAmount = as.numeric(loanAmount))
 
 save(df_loans, 
      file = here::here("API_Kiva", 

@@ -13,7 +13,7 @@ df_rawdata <- read_csv(file = here::here(Sys.getenv("PATH_TO_DROPBOX"),
 										 "RSM",
 										 "BAM_programme",
 										 "ADF",
-										 "ADF_2022_2023",
+										 "ADF_2023_2024",
 										 "IA_data",
 										 "rawdata.csv"))
 
@@ -40,8 +40,7 @@ df_procdata <- df_procdata %>%
 # after you've made the transformations you need, save the processed dataset 
 #	and add to repo
 save(df_procdata,
-	 file = here::here("examples",
-	 				  "data_outside_repo",
+	 file = here::here("data_outside_repo",
 	 				  "processed_data.RData"))
 
 
