@@ -32,22 +32,10 @@ all_data <- purrr::map(all_content, "data")
 purrr::map(all_data, names)
 all_data <- purrr::map(all_data, "lend")
 purrr::map(all_data, names)
-all_data <- purrr::map(all_data, "loans")
+all_data <- purrr::map(all_data, "loan")
 purrr::map(all_data, names)
-purrr::map_int(all_data, "totalCount")
-all_data <- purrr::map(all_data, "values")
 
-
-purrr::map_int(all_data, length)
 # this is how many loans there are in total
-sum(purrr::map_int(all_data, length))
-# check how all_data looks like and then flatten it
-# flatten removes the first level of indexes from the list
-all_data <- purrr::flatten(all_data)
-# check how all_data looks like now and notice the differences 
-#		to understand what flatten does
-# the flattened list should have as many elements as the number of loans
-#       returned by sum(map_int(all_data, length)) above
 length(all_data)
 
 # you need to use functions to extract elements that are in nested lists
