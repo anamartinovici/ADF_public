@@ -3,7 +3,7 @@
 
 #> country: Moldova (MD)
 #> https://www.kiva.org/lend/filter?country=MD
-#> there are 20 results in the browser
+#> check the number of results in the browser
 
 get_url <- "https://api.kivaws.org/graphql"
 response_allresults <-
