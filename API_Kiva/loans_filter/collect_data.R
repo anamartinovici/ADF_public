@@ -38,6 +38,7 @@ content_allresults <- response_allresults |>
 totalCount <- content_allresults[["data"]][["lend"]][["loans"]][["totalCount"]]
 all_response_objects <- vector(mode = "list", length = totalCount)
 request_number <- 1
+tictoc::tic("while loop takes this much:")
 # you could use either for or while
 while(request_number <= totalCount) {
 	# use tic toc functions to see how much time it takes per request
@@ -54,13 +55,13 @@ while(request_number <= totalCount) {
                                                 id
                                                 description
                                                 loanAmount
-                                                    fundraisingDate
-                                                    loanFundraisingInfo {{
+                                                fundraisingDate
+                                                loanFundraisingInfo {{
                                                      fundedAmount
-                                                      reservedAmount
-                                                      isExpiringSoon
-                                                    }}
-                                                    geocode {{
+                                                     reservedAmount
+                                                     isExpiringSoon
+                                                }}
+                                                geocode {{
                                                       country {{
                                                         name
                                                         isoCode
@@ -69,8 +70,8 @@ while(request_number <= totalCount) {
                                                         numLoansFundraising
                                                         fundsLentInCountry
                                                       }}
-                                                    }}
-                                                    status
+                                                }}
+                                                status
                                             }}
                                      }}
                                    }}")
@@ -104,6 +105,7 @@ while(request_number <= totalCount) {
 	#       lines of code between tic and toc
 	tictoc::toc()
 }
+tictoc::toc()
 
 save(all_response_objects, 
      file = here::here("API_Kiva",
