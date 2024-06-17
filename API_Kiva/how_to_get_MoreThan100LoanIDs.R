@@ -103,7 +103,7 @@ while(request_number <= N_requests) {
 	# use tic toc functions to see how much time it takes per request
 	tictoc::tic(glue::glue("duration for request number {request_number}"))
 	
-	current_offset <- (request_number - 1) * n_per_request
+	current_offset <- as.integer((request_number - 1) * n_per_request)
 	
 	response <- httr2::req_perform(
 		req = httr2::request(base_url = get_url) |>
