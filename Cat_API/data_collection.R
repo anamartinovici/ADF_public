@@ -15,8 +15,5 @@ my_request |>
 response <- my_request |>
 	httr2::req_perform()
 
-response |>
-	httr2::resp_status_desc()
-
-content <- response |>
-	httr2::resp_body_json()
+save(response,
+	 file = here::here("Cat_API", "data_collection.RData"))
