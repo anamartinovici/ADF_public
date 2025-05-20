@@ -45,5 +45,10 @@ The content of this file is:
 ```
 
 
+These were the packages use to produce this report:
+
+```{r}
+sessionInfo()
+```
 
 

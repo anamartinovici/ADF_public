@@ -24,9 +24,9 @@ knitr::opts_chunk$set(echo = TRUE)
 This example shows how to print specific lines from an external script. You can use this to show, in your final report, what specific queries you've used, how you requested data from the API, and other relevant steps in your project.
   
 ```{r, inc-query} 
-file_name <- here::here("API_Kiva", "loans_filter", "collect_data.R") 
-start_line <- 75
-end_line <- 106
+file_name <- here::here("Cat_API", "data_collection.R") 
+start_line <- 3
+end_line <- 18
 knitr::read_chunk(path = file_name, labels = "my-query-params", from = start_line, to = end_line) 
  
 file_in_repo <- stringr::str_sub(file_name, start = stringr::str_locate(file_name, "/ADF_public")[1, "start"]) 
@@ -37,25 +37,6 @@ Specifically, we are including lines `r start_line`:`r end_line` from `r file_in
 
 ```{r, my-query-params, eval = FALSE, echo = TRUE} 
 ``` 
-
-```{r}
-load(here::here("API_Kiva", "loans_filter", "process_data.RData") )
-```
-
-These lines indicate the query and fields that I've been using to collect `r nrow(df_loans)` loans with the following distribution for the loan amount:
-
-```{r}
-library("tidyverse")
-
-df_loans %>%
-	ggplot(aes(x = loanAmount)) +
-	geom_histogram(binwidth = 500) +
-	theme_bw() +
-	labs(x = "Loan Amount",
-		 y = "Number of loans",
-		 title = "Distribution of Loan Amount")
-
-```
 
 
 
