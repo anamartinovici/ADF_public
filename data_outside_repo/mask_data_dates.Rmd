@@ -1,0 +1,150 @@
+---
+title: "Examples of masking data"
+author: "Ana Martinovici"
+date: "Last compiled on `r format(Sys.time(), '%Y-%m-%d at %H:%M:%S')`"
+output: 
+    bookdown::html_document2:
+        toc: true
+        toc_float: 
+            collapsed: false
+        number_sections: true
+        code_folding: show
+        theme: cerulean
+editor_options: 
+  chunk_output_type: console
+---
+
+This file provides examples of how to work with data that is not shared in the repo, and that can not be shared as-is with others.
+
+```{r}
+library("tidyverse")
+
+# data is read from an external location (i.e., not in the repo)
+path_to_data <- here::here(Sys.getenv("PATH_TO_DROPBOX"), 
+						   "Teaching",
+						   "RSM",
+						   "BAM_programme",
+						   "ADF",
+						   "ADF_2025-2026",
+						   "Spotify_data")
+```
+
+I have placed a data access request for my Spotify data and received in return 3 archives. After unzipping the archives, these are the files within each folder:
+
+```{r}
+
+printtree::print_rtree(path = here::here(path_to_data))
+
+
+```
+
+The sheer number of files and the amount of information within each of them is overwhelming. For each of the 3 archives / groups of data files, there is ReadMe file that provides additional information. These ReadMe files are pdfs and have pages upon pages of tables with `item name` and `item description`. It is possible to go through all of those pages and figure out what each file and variable name stores. However, it is not feasible to do so within a reasonable time, by an average user. For example, the Granular Description of Technical Log Files is about 500 pages long. Data dictionaries would be much more useful if provided in a format that can more easily be processed and stored together with the data it describes.
+
+These files contain personal data and information that I want to keep private. However, I can mask some of the data and share the masked version. In doing so, I have in mind the principle of data minimization. That is, I will try to share as little data as necessary for my specific goal. For example, if I want to make a statement about how many songs I listened to over the months of one year, I need to share a dataset that contains the year and month information but not the specific timestamp (day, hour, and minute). The masked data can still be used to count the number of songs per month - the specific days are not relevant. 
+
+```{r}
+orig_history <- jsonlite::fromJSON(txt = here::here(path_to_data,
+													"extended_streaming_history",
+													"Spotify Extended Streaming History",
+													"Streaming_History_Audio_2026.json"),
+								   simplifyDataFrame = FALSE)
+```
+
+This reads in a list with multiple items:
+
+```{r}
+
+length(orig_history)
+
+```
+
+I will arrange this in an easier to look at `df`:
+
+```{r}
+
+table(map_int(orig_history, length))
+
+reduce(map(orig_history, names), unique)
+
+df_orig <- orig_history |>
+  map(~ modify(.x, ~ if (is.null(.x)) NA else .x)) |>
+  bind_rows()
+
+```
+
+These are all the variables:
+
+```{r}
+
+names(df_orig)
+
+```
+
+
+# Example 1
+
+I want to report the total number of unique songs per month.
+
+I will first check how many unique values there are:
+
+```{r}
+df_orig %>%
+	distinct(master_metadata_track_name) %>%
+	nrow()
+```
+
+The number of unique songs differs from the number of observations. This means that there are songs that I listened to more than once. This impacts how I generate the masked song name
+
+```{r}
+
+df_processed <- df_orig %>%
+	select(ts,
+		   master_metadata_track_name) %>%
+	group_by(master_metadata_track_name) %>%
+	mutate(masked_master_metadata_track_name = paste0("Masked_", cur_group_id())) %>%
+	ungroup() %>%
+	select(-master_metadata_track_name)
+
+df_processed %>%
+	distinct(masked_master_metadata_track_name) %>%
+	nrow()
+
+```
+
+Next, I can remove the detailed timestamp info
+
+```{r}
+df_processed <- df_processed %>%
+	mutate(YYYY_MM = str_sub(ts, end = 7)) %>%
+	select(-ts)
+```
+
+This is how many songs I listened to per month:
+
+```{r}
+df_processed %>%
+	group_by(YYYY_MM) %>%
+	summarise(n_obs = n())
+```
+
+And this is how many unique songs there are per month:
+
+```{r}
+df_processed %>%
+	group_by(YYYY_MM) %>%
+	distinct(masked_master_metadata_track_name) %>%
+	summarise(n_obs = n())
+
+
+```
+
+Now, `df_processed` can be saved in the repo and shared with others.
+
+```{r}
+save(df_processed,
+	 file = here::here("data_outside_repo",
+	 				  "masked_history.RData"))
+```
+
+
+

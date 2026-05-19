@@ -1,0 +1,140 @@
+---
+title: "Examples of masking data"
+author: "Ana Martinovici"
+date: "Last compiled on `r format(Sys.time(), '%Y-%m-%d at %H:%M:%S')`"
+output: 
+    bookdown::html_document2:
+        toc: true
+        toc_float: 
+            collapsed: false
+        number_sections: true
+        code_folding: show
+        theme: cerulean
+editor_options: 
+  chunk_output_type: console
+---
+
+This file provides examples of how to work with data that is not shared in the repo, and that can not be shared as-is with others.
+
+```{r}
+library("tidyverse")
+
+# data is read from an external location (i.e., not in the repo)
+path_to_data <- here::here(Sys.getenv("PATH_TO_DROPBOX"), 
+						   "Teaching",
+						   "RSM",
+						   "BAM_programme",
+						   "ADF",
+						   "ADF_2025-2026",
+						   "Spotify_data")
+```
+
+I have placed a data access request for my Spotify data and received in return 3 archives. After unzipping the archives, these are the files within each folder:
+
+```{r}
+
+printtree::print_rtree(path = here::here(path_to_data))
+
+
+```
+
+The sheer number of files and the amount of information within each of them is overwhelming. For each of the 3 archives / groups of data files, there is ReadMe file that provides additional information. These ReadMe files are pdfs and have pages upon pages of tables with `item name` and `item description`. It is possible to go through all of those pages and figure out what each file and variable name stores. However, it is not feasible to do so within a reasonable time, by an average user. For example, the Granular Description of Technical Log Files is about 500 pages long. Data dictionaries would be much more useful if provided in a format that can more easily be processed and stored together with the data it describes.
+
+These files contain personal data and information that I want to keep private. 
+
+For example, `technical_log\Spotify Technical Log Information\recipients.json` contains information about who might have received my data. See screenshot from the ReadMe file:
+
+```{r}
+knitr::include_graphics(path = here::here("data_outside_repo", "readme_tech_1.png"),
+						rel_path = FALSE)
+```
+
+However, I can mask some of the data and share the masked version. In doing so, I have in mind the principle of data minimization. That is, I will try to share as little data as necessary for my specific goal. For example, if I want to make a statement about how many companies have received my data, I can mask all company names and share that. The masked data can still be used to count the number of companies - their specific names are not relevant. 
+
+```{r}
+orig_recipients <- jsonlite::fromJSON(txt = here::here(path_to_data,
+													   "technical_log",
+													   "Spotify Technical Log Information",
+													   "recipients.json"),
+									  simplifyDataFrame = FALSE)
+```
+
+This reads in a list with one item:
+
+```{r}
+
+names(orig_recipients)
+
+```
+
+Recipients are split in two types:
+
+```{r}
+purrr::map_chr(orig_recipients[["recipients"]], "name")
+```
+
+# Example 1
+
+If I want to report the total number of recipients, without the split by type, then I can put the members info in a `df` and then mask their names:
+
+```{r}
+df_orig <- orig_recipients[["recipients"]] %>%
+	map_dfr(\(x) {
+		tibble(
+			members = x[["members"]]
+		)
+	})
+```
+
+I will first check how many unique values there are:
+
+```{r}
+df_orig %>%
+	distinct(members) %>%
+	nrow()
+```
+
+Good, as many as the number of observations. I can replace the values of the `members` variable with a value that clearly communicates this is masked information.
+
+```{r}
+
+df_processed <- df_orig %>%
+	mutate(masked_members = paste0("Masked_Name", row_number())) %>%
+	select(-members)
+
+```
+
+Now, `df_processed` can be saved in the repo and shared with others.
+
+# Example 2
+
+If I want to report the number of members by type, then I need to keep that information in.
+
+```{r}
+
+df_orig <- orig_recipients[["recipients"]] %>%
+	map_dfr(\(x) {
+		tibble(
+			name = x[["name"]],
+			members = x[["members"]]
+		)
+	})
+
+df_processed <- df_orig %>%
+	group_by(name) %>%
+	mutate(masked_members = paste0("Masked_Name", row_number())) %>%
+	ungroup() %>%
+	select(-members)
+
+```
+
+Now, `df_processed` can be saved in the repo and shared with others.
+
+```{r}
+save(df_processed,
+	 file = here::here("data_outside_repo",
+	 				  "masked_members.RData"))
+```
+
+
+

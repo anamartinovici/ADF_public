@@ -8,3 +8,4 @@
 
 examples/recent_search/*.RData
 examples/user_timeline/*.RData
+.positai
