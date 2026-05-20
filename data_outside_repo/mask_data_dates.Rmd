@@ -46,7 +46,7 @@ These files contain personal data and information that I want to keep private. H
 orig_history <- jsonlite::fromJSON(txt = here::here(path_to_data,
 													"extended_streaming_history",
 													"Spotify Extended Streaming History",
-													"Streaming_History_Audio_2026.json"),
+													"Streaming_History_Audio_2025.json"),
 								   simplifyDataFrame = FALSE)
 ```
 
@@ -126,6 +126,8 @@ df_processed %>%
 	group_by(YYYY_MM) %>%
 	summarise(n_obs = n())
 ```
+
+Weird, there are songs from 2024 in the JSON file that is supposed to be for 2025.
 
 And this is how many unique songs there are per month:
 
