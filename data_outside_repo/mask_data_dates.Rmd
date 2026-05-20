@@ -62,13 +62,20 @@ I will arrange this in an easier to look at `df`:
 
 ```{r}
 
-table(map_int(orig_history, length))
+table(purrr::map_int(orig_history, length))
 
 reduce(map(orig_history, names), unique)
+#> reduce does the same as:
+# unique_names <- unique(names(orig_history[[1]]))
+# for (i in 2:length(orig_history)) {
+# 	unique_names <- unique(unique_names,
+# 						   names(orig_history[[i]]))
+# }
 
 df_orig <- orig_history |>
   map(~ modify(.x, ~ if (is.null(.x)) NA else .x)) |>
   bind_rows()
+
 
 ```
 
