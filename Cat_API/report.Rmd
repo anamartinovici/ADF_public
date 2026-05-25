@@ -1,0 +1,28 @@
+---
+title: "Main report"
+author: "Ana Martinovici"
+date: "Last compiled on `r Sys.Date()`"
+output: 
+    bookdown::html_document2:
+        toc: true
+        toc_float: 
+            collapsed: false
+        number_sections: true
+        code_folding: show
+        theme: cerulean
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup-main, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+This report provides information about how to use the Cat API and examples of the type of data you can collect.
+
+```{r, child=here::here("Cat_API", "report_sections", "cat_API.Rmd")}
+```
+
+```{r, child=here::here("Cat_API", "report_sections", "data_descriptives.Rmd")}
+```

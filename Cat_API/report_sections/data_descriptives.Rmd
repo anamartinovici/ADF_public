@@ -1,0 +1,59 @@
+---
+title: "Describe the data"
+author: "Ana Martinovici"
+date: "Last compiled on `r Sys.Date()`"
+output: 
+    bookdown::html_document2:
+        toc: true
+        toc_float: 
+            collapsed: false
+        number_sections: true
+        code_folding: hide
+        theme: cerulean
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup-section2, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data descriptives
+
+Processed data is saved in `Cat_API/process_data.RData`.
+
+```{r}
+
+library("tidyverse")
+library("labelled")
+library("kableExtra")
+
+load(here::here("Cat_API", "process_data.RData"))
+
+```
+
+We collected `r nrow(df_cats)` observations. Each observation corresponds to a different cat. These observations cover `r nrow(df_breeds)` different cat breeds.
+
+The API returned information about these variables:
+
+```{r}
+glimpse(df_cats)
+
+glimpse(df_breeds)
+```
+
+Further information about the values corresponding to these variables:
+
+```{r}
+labelled::look_for(df_cats) %>%
+  kbl(escape = F, digits = c(2), align = c('r')) %>%
+	kable_classic() %>%
+	kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
+
+labelled::look_for(df_breeds, details = "full") %>%
+  kbl(escape = F, digits = c(2), align = c('r')) %>%
+	kable_classic() %>%
+	kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
+
+```
+
